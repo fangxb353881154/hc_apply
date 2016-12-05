@@ -23,6 +23,7 @@
 		a.create_date,
 		a.update_by AS "updateBy.id",
 		a.update_date,
+		a.qr_code_url,
 		a.del_flag,
 		a.useable AS useable,
 		a.primary_person AS "primaryPerson.id",
@@ -104,7 +105,8 @@
 			del_flag,
 			useable,
 			primary_person,
-			deputy_person
+			deputy_person,
+			qr_code_url
 		) VALUES (
 			#{id}, 
 			#{parent.id}, 
@@ -129,7 +131,8 @@
 			#{delFlag},
 			#{useable},
 			#{primaryPerson.id},
-			#{deputyPerson.id}
+			#{deputyPerson.id},
+			#{qrCodeUrl}
 		)
 	</insert>
 	
@@ -153,7 +156,8 @@
 			remarks = #{remarks},
 			useable=#{useable},
 			primary_person=#{primaryPerson.id},
-			deputy_person=#{deputyPerson.id}
+			deputy_person=#{deputyPerson.id},
+			qr_code_url = #{qrCodeUrl}
 		WHERE id = #{id}
 	</update>
 	

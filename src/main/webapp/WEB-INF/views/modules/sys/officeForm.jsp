@@ -136,6 +136,12 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">推广二维码:</label>
+			<div class="controls">
+				<form:textarea path="qrCodeUrl" htmlEscape="false" maxlength="1000" rows="3"  class="input-xxlarge"/>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">备注:</label>
 			<div class="controls">
 				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge"/>

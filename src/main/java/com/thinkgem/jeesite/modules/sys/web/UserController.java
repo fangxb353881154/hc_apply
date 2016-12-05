@@ -144,7 +144,15 @@ public class UserController extends BaseController {
 		}
 		return "redirect:" + adminPath + "/sys/user/list?repage";
 	}
-	
+
+	@RequiresPermissions("sys:user:edit")
+	@RequestMapping(value = "createQrCode")
+	public String createQrCode(User user, RedirectAttributes redirectAttributes) {
+		systemService.saveUser(user);
+		addMessage(redirectAttributes, "生成用户专属二维码成功");
+		return "redirect:" + adminPath + "/sys/user/list?repage";
+	}
+
 	/**
 	 * 导出用户数据
 	 * @param user

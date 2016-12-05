@@ -33,6 +33,7 @@ public class Office extends TreeEntity<Office> {
 	private String phone; 	// 电话
 	private String fax; 	// 传真
 	private String email; 	// 邮箱
+	private String qrCodeUrl;//二维码地址
 	private String useable;//是否可用
 	private User primaryPerson;//主负责人
 	private User deputyPerson;//副负责人
@@ -90,14 +91,6 @@ public class Office extends TreeEntity<Office> {
 		this.parent = parent;
 	}
 //
-//	@Length(min=1, max=2000)
-//	public String getParentIds() {
-//		return parentIds;
-//	}
-//
-//	public void setParentIds(String parentIds) {
-//		this.parentIds = parentIds;
-//	}
 
 	@NotNull
 	public Area getArea() {
@@ -107,24 +100,7 @@ public class Office extends TreeEntity<Office> {
 	public void setArea(Area area) {
 		this.area = area;
 	}
-//
-//	@Length(min=1, max=100)
-//	public String getName() {
-//		return name;
-//	}
-//
-//	public void setName(String name) {
-//		this.name = name;
-//	}
-//
-//	public Integer getSort() {
-//		return sort;
-//	}
-//
-//	public void setSort(Integer sort) {
-//		this.sort = sort;
-//	}
-	
+
 	@Length(min=1, max=1)
 	public String getType() {
 		return type;
@@ -209,7 +185,16 @@ public class Office extends TreeEntity<Office> {
 //	public String getParentId() {
 //		return parent != null && parent.getId() != null ? parent.getId() : "0";
 //	}
-	
+
+	@Length(min=0, max=1000)
+	public String getQrCodeUrl() {
+		return qrCodeUrl;
+	}
+
+	public void setQrCodeUrl(String qrCodeUrl) {
+		this.qrCodeUrl = qrCodeUrl;
+	}
+
 	@Override
 	public String toString() {
 		return name;

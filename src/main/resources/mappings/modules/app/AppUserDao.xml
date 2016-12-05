@@ -8,11 +8,12 @@
 		a.id_card AS "idCard",
 		a.user_id AS "user.id",
 		a.create_date AS "createDate",
-		u4.name AS "user.name"
+		u.name AS "user.name"
 	</sql>
 	
 	<sql id="appUserJoins">
-		LEFT JOIN sys_user u4 ON u4.id = a.user_id
+		JOIN sys_user u ON u.id = a.user_id
+		JOIN sys_office o on u.office_id = o.id
 	</sql>
     
 	<select id="get" resultType="AppUser">
@@ -37,6 +38,8 @@
 				AND a.name = #{name}
 			</if>
 		</where>
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}

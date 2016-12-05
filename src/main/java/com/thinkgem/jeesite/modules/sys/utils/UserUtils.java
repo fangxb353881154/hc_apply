@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.sys.utils;
 
 import java.util.List;
 
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.session.InvalidSessionException;
@@ -56,17 +57,20 @@ public class UserUtils {
 	 * @return 取不到返回null
 	 */
 	public static User get(String id){
-		User user = (User)CacheUtils.get(USER_CACHE, USER_CACHE_ID_ + id);
-		if (user ==  null){
-			user = userDao.get(id);
-			if (user == null){
-				return null;
+		if (StringUtils.isNotEmpty(id)) {
+			User user = (User)CacheUtils.get(USER_CACHE, USER_CACHE_ID_ + id);
+			if (user ==  null){
+				user = userDao.get(id);
+				if (user == null){
+					return null;
+				}
+				user.setRoleList(roleDao.findList(new Role(user)));
+				CacheUtils.put(USER_CACHE, USER_CACHE_ID_ + user.getId(), user);
+				CacheUtils.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getLoginName(), user);
 			}
-			user.setRoleList(roleDao.findList(new Role(user)));
-			CacheUtils.put(USER_CACHE, USER_CACHE_ID_ + user.getId(), user);
-			CacheUtils.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getLoginName(), user);
+			return user;
 		}
-		return user;
+		return null;
 	}
 	
 	/**

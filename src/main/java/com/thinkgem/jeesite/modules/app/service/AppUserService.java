@@ -28,11 +28,18 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	}
 	
 	public List<AppUser> findList(AppUser appUser) {
+
 		return super.findList(appUser);
 	}
 	
 	public Page<AppUser> findPage(Page<AppUser> page, AppUser appUser) {
-		return super.findPage(page, appUser);
+		// 生成数据权限过滤条件（dsf为dataScopeFilter的简写，在xml中使用 ${sqlMap.dsf}调用权限SQL）
+		appUser.getSqlMap().put("dsf", dataScopeFilter(appUser.getCurrentUser(), "o", "u"));
+		// 设置分页参数
+		appUser.setPage(page);
+		// 执行分页查询
+		page.setList(findList(appUser));
+		return page;
 	}
 	
 	@Transactional(readOnly = false)
