@@ -25,6 +25,7 @@
 		a.update_date,
 		a.del_flag,
 		a.qr_code,
+		a.url,
     	c.name AS "company.name",
     	c.parent_id AS "company.parent.id",
     	c.parent_ids AS "company.parentIds",
@@ -186,7 +187,8 @@
 			login_flag, 
 			photo, 
 			del_flag,
-			qr_code
+			qr_code,
+			url
 		) VALUES (
 			#{id}, 
 			#{company.id}, 
@@ -207,7 +209,8 @@
 			#{loginFlag}, 
 			#{photo}, 
 			#{delFlag},
-			#{qrCode}
+			#{qrCode},
+			#{url}
 		)
 	</insert>
 	
@@ -229,7 +232,8 @@
 			remarks = #{remarks},
 			login_flag = #{loginFlag},
 			photo = #{photo},
-			qr_code = #{qrCode}
+			qr_code = #{qrCode},
+			url=#{url}
 		WHERE id = #{id}
 	</update>
 	

@@ -6,7 +6,14 @@ package com.thinkgem.jeesite.modules.sys.service;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
+import com.google.zxing.Result;
+import com.thinkgem.jeesite.common.utils.HttpRequest;
 import com.thinkgem.jeesite.modules.app.utils.QrCodeUtils;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -380,6 +387,25 @@ public class SystemService extends BaseService {
 		String imgPath = QrCodeUtils.getRequestPath(QR_PATH);
 		String url = Global.getConfig("qrCode.url") + "?dl="+user.getId() ;
 		try {
+			String appKey = Global.getConfig("weiBo.app.key");
+			String http = "http://api.weibo.com/2/short_url/shorten.json";
+			String param = "source=" + appKey + "&url_long=" + url;
+
+			String result = HttpRequest.sendGet(http, param);
+			System.out.println(result);
+			JSONObject jsonObject = JSON.parseObject(result);
+			JSONArray array = jsonObject.getJSONArray("urls");
+			if (array != null) {
+				JSONObject o = (JSONObject) array.get(0);
+				if (o != null && o.getBoolean("result")) {
+					url = o.getString("url_short");
+				}
+			}
+		}catch (Exception e){
+			logger.error("获取短链接失败：" + e.getMessage());
+		}
+		try {
+			user.setUrl(url);
 			QrCodeUtils.encode(url, imgPath + qrImgName);
 			user.setQrCode(QR_PATH + qrImgName);
 		} catch (Exception e) {

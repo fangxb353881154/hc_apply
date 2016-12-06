@@ -40,7 +40,8 @@
 			<tr>
 				<th>手机号</th>
 				<th>客户姓名</th>
-				<th>所属代理</th>
+				<th>推荐人</th>
+				<th>申请时间</th>
 				<%--<shiro:hasPermission name="app:appUser:edit"><th>操作</th></shiro:hasPermission>--%>
 			</tr>
 		</thead>
@@ -54,6 +55,9 @@
 					${appUser.name}
 				</td>
 				<td>${appUser.user.name}</td>
+				<td>
+					<fmt:formatDate value="${appUser.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				</td>
 				<%--<shiro:hasPermission name="app:appUser:edit"><td>
     				<a href="${ctx}/app/appUser/form?id=${appUser.id}">修改</a>
 					<a href="${ctx}/app/appUser/delete?id=${appUser.id}" onclick="return confirmx('确认要删除该客户吗？', this.href)">删除</a>

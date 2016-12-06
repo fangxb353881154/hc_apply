@@ -53,7 +53,7 @@ jQuery.validator.addMethod("userName", function(value, element) {
 // 手机号码验证
 jQuery.validator.addMethod("mobile", function(value, element) {
     var length = value.length;
-    return this.optional(element) || (length == 11 && /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/.test(value));
+    return this.optional(element) || (length == 11 && /^1[34578]\d{9}$/.test(value));
 }, "请正确填写您的手机号码");
 
 // 电话号码验证

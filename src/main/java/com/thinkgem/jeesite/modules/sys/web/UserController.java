@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.sys.web;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +71,7 @@ public class UserController extends BaseController {
 	public String list(User user, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<User> page = systemService.findUser(new Page<User>(request, response), user);
         model.addAttribute("page", page);
+		model.addAttribute("dateTime", new Date().getTime());
 		return "modules/sys/userList";
 	}
 
@@ -275,10 +277,6 @@ public class UserController extends BaseController {
 	public String info(User user, HttpServletResponse response, Model model) {
 		User currentUser = UserUtils.getUser();
 		if (StringUtils.isNotBlank(user.getName())){
-			if(Global.isDemoMode()){
-				model.addAttribute("message", "演示模式，不允许操作！");
-				return "modules/sys/userInfo";
-			}
 			currentUser.setEmail(user.getEmail());
 			currentUser.setPhone(user.getPhone());
 			currentUser.setMobile(user.getMobile());
@@ -289,6 +287,7 @@ public class UserController extends BaseController {
 		}
 		model.addAttribute("user", currentUser);
 		model.addAttribute("Global", new Global());
+		model.addAttribute("dateTime", new Date().getTime());
 		return "modules/sys/userInfo";
 	}
 
@@ -346,26 +345,4 @@ public class UserController extends BaseController {
 		}
 		return mapList;
 	}
-    
-//	@InitBinder
-//	public void initBinder(WebDataBinder b) {
-//		b.registerCustomEditor(List.class, "roleList", new PropertyEditorSupport(){
-//			@Autowired
-//			private SystemService systemService;
-//			@Override
-//			public void setAsText(String text) throws IllegalArgumentException {
-//				String[] ids = StringUtils.split(text, ",");
-//				List<Role> roles = new ArrayList<Role>();
-//				for (String id : ids) {
-//					Role role = systemService.getRole(Long.valueOf(id));
-//					roles.add(role);
-//				}
-//				setValue(roles);
-//			}
-//			@Override
-//			public String getAsText() {
-//				return Collections3.extractToString((List) getValue(), "id", ",");
-//			}
-//		});
-//	}
 }

@@ -43,6 +43,7 @@ public class User extends DataEntity<User> {
 	private String loginFlag;	// 是否允许登陆
 	private String photo;	// 头像
 	private String qrCode;
+	private String url;
 
 	private String oldLoginName;// 原登录名
 	private String newPassword;	// 新密码
@@ -232,6 +233,14 @@ public class User extends DataEntity<User> {
 
 	public void setQrCode(String qrCode) {
 		this.qrCode = qrCode;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getOldLoginName() {

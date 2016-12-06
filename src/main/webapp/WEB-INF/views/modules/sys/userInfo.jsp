@@ -34,7 +34,13 @@
 		<div class="control-group">
 			<label class="control-label">推广二维码:</label>
 			<div class="controls">
-				<img src="${user.qrCode}" width="150" height="150" alt="i贷推广二维码" title="i贷推广二维码" />
+				<img src="${user.qrCode}?${dateTime}" width="150" height="150" alt="i贷推广二维码" title="i贷推广二维码" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">推广链接:</label>
+			<div class="controls">
+				<a href="${user.url}" target="_blank">${user.url}</a>
 			</div>
 		</div>
 		<%--<div class="control-group">
