@@ -145,7 +145,7 @@ public class SystemService extends BaseService {
 		}
 		if (StringUtils.isNotBlank(user.getId())){
 			// 更新用户与角色关联
-			userDao.deleteUserRole(user);
+			//userDao.deleteUserRole(user);
 			if (user.getRoleList() != null && user.getRoleList().size() > 0){
 				userDao.insertUserRole(user);
 			}else{

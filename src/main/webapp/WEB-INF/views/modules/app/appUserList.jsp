@@ -18,9 +18,10 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/app/appUser/">客户列表</a></li>
+		<li class="active"><a href="${ctx}/app/appUser/list">客户列表</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="appUser" action="${ctx}/app/appUser/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="appUser" action="${ctx}/app/appUser/list" method="post" class="breadcrumb form-search">
+		<form:hidden path="user.id"/>
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">

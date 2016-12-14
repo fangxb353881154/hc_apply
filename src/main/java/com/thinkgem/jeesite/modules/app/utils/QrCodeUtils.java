@@ -194,7 +194,10 @@ public class QrCodeUtils {
     }
 
     public static void main(String[] args) throws Exception {
-        String text = "http://www.java81.com";
-        encode(text, "d:/MyWorkDoc/afadf.jpg");
+        /*String text = "http://www.java81.com";
+        encode(text, "d:/MyWorkDoc/afadf.jpg");*/
+        File file = new File("d:/RRW.jpg");
+        System.out.println(decode(file));
+
     }
 }

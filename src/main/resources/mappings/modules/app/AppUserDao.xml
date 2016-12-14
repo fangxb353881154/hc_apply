@@ -13,7 +13,7 @@
 	
 	<sql id="appUserJoins">
 		JOIN sys_user u ON u.id = a.user_id
-		JOIN sys_office o on u.office_id = o.id
+		JOIN agent_user ua on u.id = ua.id
 	</sql>
     
 	<select id="get" resultType="AppUser">
@@ -30,7 +30,6 @@
 		FROM app_user a
 		<include refid="appUserJoins"/>
 		<where>
-			
 			<if test="phone != null and phone != ''">
 				AND a.phone = #{phone}
 			</if>
@@ -45,6 +44,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
+				ORDER BY a.create_date DESC
 			</otherwise>
 		</choose>
 	</select>

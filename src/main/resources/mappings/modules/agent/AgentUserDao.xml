@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.agent.dao.AgentUserDao">
+    
+	<sql id="agentUserColumns">
+		a.id AS "id",
+		a.parent_id AS "parent.id",
+		a.parent_ids AS "parentIds",
+		a.bank_card AS "bankCard",
+		a.bank_open AS "bankOpen",
+		a.bank_payee AS "bankPayee",
+		a.lend_personal AS "lendPersonal",
+		a.lend_its AS "lendIts",
+		u.id as "user.id",
+		u.login_name as "user.loginName",
+		u.name as "user.name",
+		u.mobile AS "user.mobile",
+		u.qr_code as "user.qrCode",
+		u.url as "user.url"
+	</sql>
+	
+	<sql id="agentUserJoins">
+		JOIN sys_user u ON u.id = a.id
+
+	</sql>
+    
+	<select id="get" resultType="AgentUser">
+		SELECT 
+			<include refid="agentUserColumns"/>
+		FROM agent_user a
+		<include refid="agentUserJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AgentUser">
+		SELECT 
+			<include refid="agentUserColumns"/>
+		FROM agent_user a
+		<include refid="agentUserJoins"/>
+		<where>
+			<if test="parent != null and parent.id != null and parent.id != ''">
+				AND a.parent_id = #{parent.id}
+			</if>
+			<if test="parentIds != null and parentIds != ''">
+				AND (a.parent_ids LIKE '${parentIds}${id},%' or a.id = #{id} )
+			</if>
+			<if test="bankCard != null and bankCard != ''">
+				AND a.bank_card = #{bankCard}
+			</if>
+			<if test="bankOpen != null and bankOpen != ''">
+				AND a.bank_open = #{bankOpen}
+			</if>
+			<if test="bankPayee != null and bankPayee != ''">
+				AND a.bank_payee = #{bankPayee}
+			</if>
+			<if test="lendPersonal != null and lendPersonal != ''">
+				AND a.lend_personal = #{lendPersonal}
+			</if>
+			<if test="lendIts != null and lendIts != ''">
+				AND a.lend_its = #{lendIts}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.parent_ids
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AgentUser">
+		SELECT 
+			<include refid="agentUserColumns"/>
+		FROM agent_user a
+		<include refid="agentUserJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+
+	<select id="findByParentIdsLike" resultType="AgentUser">
+		SELECT
+		a.id,
+		a.parent_id AS "parent.id",
+		a.parent_ids
+		FROM agent_user a
+		WHERE a.parent_ids LIKE #{parentIds}
+		ORDER BY a.parent_ids
+	</select>
+
+	<insert id="insert">
+		INSERT INTO agent_user(
+			id,
+			parent_id,
+			parent_ids,
+			bank_card,
+			bank_open,
+			bank_payee,
+			lend_personal,
+			lend_its
+		) VALUES (
+			#{id},
+			#{parent.id},
+			#{parentIds},
+			#{bankCard},
+			#{bankOpen},
+			#{bankPayee},
+			#{lendPersonal},
+			#{lendIts}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE agent_user SET 	
+			bank_card = #{bankCard},
+			bank_open = #{bankOpen},
+			bank_payee = #{bankPayee},
+			lend_personal = #{lendPersonal},
+			lend_its = #{lendIts}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateParentIds">
+		UPDATE agent_user SET
+		parent_id = #{parent.id},
+		parent_ids = #{parentIds}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM agent_user
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

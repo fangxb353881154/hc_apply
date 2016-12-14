@@ -45,6 +45,12 @@ public class AppUserController extends BaseController {
 		}
 		return entity;
 	}
+
+	@RequiresPermissions("app:appUser:view")
+	@RequestMapping(value = {"index", ""})
+	public String index(){
+		return "modules/app/appUserIndex";
+	}
 	
 	@RequiresPermissions("app:appUser:view")
 	@RequestMapping(value = {"list", ""})
