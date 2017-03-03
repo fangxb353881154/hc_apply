@@ -28,7 +28,9 @@
 		SELECT 
 			<include refid="appUserColumns"/>
 		FROM app_user a
-		<include refid="appUserJoins"/>
+		JOIN (
+			SELECT u.id, u.name FROM sys_user u, agent_user ua WHERE u.id = ua.id ${sqlMap.dsf}
+		) u ON  u.id =  a.user_id
 		<where>
 			<if test="phone != null and phone != ''">
 				AND a.phone = #{phone}
@@ -37,8 +39,6 @@
 				AND a.name = #{name}
 			</if>
 		</where>
-		<!-- 数据范围过滤 -->
-		${sqlMap.dsf}
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}

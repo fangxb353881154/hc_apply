@@ -8,12 +8,12 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.service.TreeService;
+import com.thinkgem.jeesite.common.utils.BeanUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.Role;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,8 +51,16 @@ public class AgentUserService extends TreeService<AgentUserDao, AgentUser> {
 		User user = agentUser.getUser();
 		if (StringUtils.isNotEmpty(agentUser.getId())) {
 			User oldUser = systemService.getUser(agentUser.getId());
-			BeanUtils.copyProperties(user, oldUser);
-
+			//BeanUtils.copyProperties(user, oldUser);
+			oldUser.setOffice(user.getOffice());
+			oldUser.setName(user.getName());
+			oldUser.setLoginName(user.getLoginName());
+			oldUser.setPhone(user.getPhone());
+			oldUser.setMobile(user.getMobile());
+			oldUser.setLoginFlag(user.getLoginFlag());
+			if (StringUtils.isNotEmpty(user.getPassword())) {
+				oldUser.setPassword(user.getPassword());
+			}
 			systemService.saveUser(oldUser);
 		}else{
 			List<Role> roles = Lists.newArrayList();

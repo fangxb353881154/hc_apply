@@ -32,7 +32,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
                         }
                         Object value = readMethod.invoke(source);
                         // 这里判断以下value是否为空 当然这里也能进行一些特殊要求的处理 例如绑定时格式转换等等
-                        if (value != null) {
+                        if (value != null && value.toString() != "") {
                             Method writeMethod = targetPd.getWriteMethod();
                             if (!Modifier.isPublic(writeMethod.getDeclaringClass().getModifiers())) {
                                 writeMethod.setAccessible(true);
